@@ -37,19 +37,36 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Part 2 (10 points)
 
 In your own words, *briefly* describe the difference between saving, committing, and pushing. 
+saving is saving the work on r studio . committing is adding comments and notes of changes made to the r project. Push is pushing the work back on to the repository
 
 ## Part 3 (10 points)
 
 * [2 points] Create a vector named `numbers` that contains the odd numbers from 3 to 15. 
+```{r}
+numbers <-seq(3,15, by = 2)
+numbers
+```
+
 
 * [3 points] Create a second vector called `half_numbers` that contains the elements of `numbers` divided by 2
+```{r}
+half_numbers <-numbers /2
+half_numbers
+```
 
 * [2 points] Add the string "puppies" to the end of `numbers`. 
+```{r}
+numbers <- seq(3,15, by = 2)
+numbers <- c(numbers, "puppies")
+```
 
 * [3 points] Try to divide the new vector by two. Does it work? Why or why not? 
 
 ```{r}
-
+numbers <- seq(3,15, by = 2)
+numbers_list <- c(numbers, "puppies")
+half_numbers <-as.numeric(numbers_list[-length(numbers_list)])/2
+half_numbers
 ```
 
 ## Part 4 (15 points)
@@ -63,26 +80,98 @@ weight <- c(14, 89, 32, 46, 55, 7, 25, 36)
 ```
 
 * [2 points] Find the average weight and age of the dogs.
+```{r}
+names <- c("Fido", "Doug", "Bella", "Max", "Cooper", "Lucy", "Duke", "Barkley")
+age <- c(2, 5, 4, 6, 1, 13, 9, 3)
+weight <- c(14, 89, 32, 46, 55, 7, 25, 36)
+average_age <- mean(age)
+average_weight <- mean(weight)
+average_age
+average_weight
+```
+
 * [2 points] How light is the dog with the lowest weight?
+```{r}
+ min(weight)
+```
+
 * [3 points] What is the name of the oldest dog?
+```{r}
+names <- c("Fido", "Doug", "Bella", "Max", "Cooper", "Lucy", "Duke", "Barkley")
+age <- c(2, 5, 4, 6, 1, 13, 9, 3)
+weight <- c(14, 89, 32, 46, 55, 7, 25, 36)
+names[which.max(age)]
+age[which.max(age)]
+```
+
 * [3 points] What is the age of the heaviest dog?
-* [2 points] It's been 2 years since you entered this information! Change `age` to reflect that. 
+```{r}
+names <- c("Fido", "Doug", "Bella", "Max", "Cooper", "Lucy", "Duke", "Barkley")
+age <- c(2, 5, 4, 6, 1, 13, 9, 3)
+weight <- c(14, 89, 32, 46, 55, 7, 25, 36)
+age[which.max(weight)]
+
+```
+
+* [2 points] It's been 2 years since you entered this information! Change `age` to
+reflect that. 
+```{r}
+names <- c("Fido", "Doug", "Bella", "Max", "Cooper", "Lucy", "Duke", "Barkley")
+age <- c(2, 5, 4, 6, 1, 13, 9, 3)
+age2 <- age +2
+age2
+
+```
+
 * [3 points] A new dog is here! Her name is Daisy, she is 3 years old, and weighs 39 pounds. Add her to your data. 
+```{r}
+names <- c("Fido", "Doug", "Bella", "Max", "Cooper", "Lucy", "Duke", "Barkley")
+age <- c(2, 5, 4, 6, 1, 13, 9, 3)
+weight <- c(14, 89, 32, 46, 55, 7, 25, 36)
+names <- c(names, "daisy")
+age <- c(age, 3)
+weight <- c(weight, 39)
+data.frame(names, age, weight)
+```
 
 
 ## Part 5 (10 points)
 
 In baseball, the slugging percentage is computed with 5 variables, the number of singles, doubles, triples, homeruns and at-bats. We abbreviate these 1B, 2B, 3B, HR and AB. 
 
-1. [7 points] Write a function that takes these 5 values as arguments and returns the slugging percentage for that player. 
+1. [7 points] Write a function that takes these 5 values as arguments and returns the slugging percentage for that player. $$  \frac{(1B + 2B\times2 + 3B \times 3 + HR\times 4)}{AB} $$
+```{r}
+slugging_percentage <- function(singles, doubles, triples, home_runs, at_bats) {
+    if(at_bats == 0){
+      return(0)
+    }
+    total_bases <-singles + (doubles *2) +
+      (triples * 3) + (home_runs * 4)
+    slg <- total_bases / at_bats
+    return(slg)
+}
+slugging_percentage(50, 20, 5, 10 ,200)
+```
 
-$$  \frac{(1B + 2B\times2 + 3B \times 3 + HR\times 4)}{AB} $$
+
 
 2. [3 points] The Astros player Jose Altuve currently has the following stats: 
 
 `1B = 89, 2B = 34, 3B = 0, HR = 25, AB = 499 `
 
 Use your function to find his slugging percentage. 
+```{r}
+slugging_percentage <- function(singles, doubles, triples, home_runs, at_bats) {
+    if(at_bats == 0){
+      return(0)
+    }
+    total_bases <-singles + (doubles *2) +
+      (triples * 3) + (home_runs * 4)
+    slg <- total_bases / at_bats
+    return(slg)
+}
+slugging_percentage(89, 34, 0, 25, 499)
+```
 
 
 ## Part 6 (15 points)
@@ -91,7 +180,25 @@ Use your function to find his slugging percentage.
 
 > For example, if you pass the function a vector containing 4 and 16, it should return a vector containing 2 and 4. 
 
+```{r}
+sqrt_vector <- function(x){
+  return(sqrt(x))
+}
+my_vector <- c(4, 9, 16, 25)
+sqrt_vector(my_vector)
+```
+
+
 2. [6 points] Write a second function that does the above, but also removes any negative values or changes them to 0.
+```{r}
+sqrt_vector_no_neg <- function(x){
+  x[x < 0] <-0
+  return(sqrt(x))
+}
+my_vector <- c(4, -9, 16, -25, 0)
+sqrt_vector_no_neg(my_vector)
+```
+
 
 > For example, if you pass *this* function -4 and 16, it should return either 0 and 4 or just 4.
 
@@ -100,6 +207,22 @@ Use your function to find his slugging percentage.
 ```{r}
 test1 <- c(1:10)
 test2 <- c(-4:4)
+# Function: square root, negatives replaced with 0
+sqrt_vector_no_neg <- function(x) {
+  x[x < 0] <- 0
+  return(sqrt(x))
+}
+
+# Test vectors
+test1 <- c(1:10)
+test2 <- c(-4:4)
+
+# Apply function and print results
+cat("Square roots with negatives as 0 for test1:\n")
+print(sqrt_vector_no_neg(test1))
+
+cat("\nSquare roots with negatives as 0 for test2:\n")
+print(sqrt_vector_no_neg(test2))
 ```
 
 
@@ -114,7 +237,67 @@ Rating | Bonus Percent
 1|5%
 
 1. [8 points] Write a function that takes the employees score and their salary as arguments and returns their bonus amount for the year. 
+```{r}
+# Function to calculate annual bonus
+annual_bonus <- function(score, salary) {
+  if(score == 3) {
+    bonus <- 0.15 * salary
+  } else if(score == 2) {
+    bonus <- 0.10 * salary
+  } else if(score == 1) {
+    bonus <- 0.05 * salary
+  } else {
+    bonus <- 0 # In case of invalid score
+  }
+  return(bonus)
+}
+# Example usage:
+annual_bonus(3, 60000) # Returns 9000
+annual_bonus(2, 60000) # Returns 6000
+annual_bonus(1, 60000) # Returns 3000
+```
 
 2. [2 points] Fitz makes $100,000 a year, but only got a score of 1. Use your function to calculate his bonus.
+```{r}
+annual_bonus <- function(score, salary) {
+  if(score == 3) {
+    bonus <- 0.15 * salary
+  } else if(score == 2) {
+    bonus <- 0.10 * salary
+  } else if(score == 1) {
+    bonus <- 0.05 * salary
+  } else {
+    bonus <- 0 # In case of invalid score
+  }
+  return(bonus)
+}
+annual_bonus(1,100000)
+
+```
+
+
+
+
 
 3. [3 extra credit points] Modify your function so that it returns the full pay for the year, salary and bonus combined. How much will Fitz make in total?
+```{r}
+# Function to calculate total pay including bonus
+total_pay <- function(score, salary) {
+  if(score == 3) {
+    bonus <- 0.15 * salary
+  } else if(score == 2) {
+    bonus <- 0.10 * salary
+  } else if(score == 1) {
+    bonus <- 0.05 * salary
+  } else {
+    bonus <- 0 # For invalid score
+  }
+  
+  total <- salary + bonus
+  return(total)
+}
+
+# Example usage for Fitz:
+total_pay(1, 100000)
+
+```
